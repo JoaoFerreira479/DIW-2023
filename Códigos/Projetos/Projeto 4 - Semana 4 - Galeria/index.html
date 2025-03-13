@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Gatinhos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5fa;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ff758f;
+            padding: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 150px;
+        }
+
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 40px;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .foto {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .foto:hover {
+            transform: scale(1.05);
+        }
+
+        .foto img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .modal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s;
+        }
+
+        .modal.mostrar {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-conteudo {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 10px;
+        }
+
+        .fechar {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .fechar:hover {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Galeria de Gatinhos</h1>
+    </header>
+    <main class="galeria">
+        <div class="foto" tabindex="0" role="button" aria-label="Abrir imagem 1">
+            <img src="img1.jpg" alt="...">
+        </div>
+        <div class="foto" tabindex="0" role="button" aria-label="Abrir imagem 2">
+            <img src="img2.jpg" alt="...">
+        </div>
+        <div class="foto" tabindex="0" role="button" aria-label="Abrir imagem 3">
+            <img src="img3.jpg" alt="...">
+        </div>
+        <div class="foto" tabindex="0" role="button" aria-label="Abrir imagem 4">
+            <img src="img4.jpg" alt="...">
+        </div>
+        <div class="foto" tabindex="0" role="button" aria-label="Abrir imagem 5">
+            <img src="img5.jpg" alt="...">
+        </div>
+        <div class="foto" tabindex="0" role="button" aria-label="Abrir imagem 6">
+            <img src="img6.jpg" alt="...">
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <span id="fechar" class="fechar" role="button" aria-label="Fechar imagem">&times;</span>
+        <img id="imagem-modal" class="modal-conteudo" alt="Imagem ampliada">
+    </div>
+
+    <script>
+        const imagens = ["img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg", "img5.jpg", "img6.jpg"];
+        let imagemAtual = 0;
+
+        const modal = document.getElementById("modal");
+        const imagemModal = document.getElementById("imagem-modal");
+        const botaoFechar = document.getElementById("fechar");
+
+        document.querySelectorAll('.foto').forEach((foto, index) => {
+            foto.addEventListener('click', () => abrirImagem(index));
+            foto.addEventListener('keydown', (event) => {
+                if (event.key === "Enter") abrirImagem(index);
+            });
+        });
+
+        function abrirImagem(index) {
+            imagemAtual = index;
+            imagemModal.src = imagens[imagemAtual];
+            modal.classList.add("mostrar");
+        }
+
+        function fecharImagem() {
+            modal.classList.remove("mostrar");
+        }
+
+        botaoFechar.addEventListener("click", fecharImagem);
+
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) fecharImagem();
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") fecharImagem();
+        });
+    </script>
+</body>
+
+</html>
